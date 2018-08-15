@@ -1,0 +1,50 @@
+body {
+    width: 80%;
+    margin: 32px auto;
+}
+
+.jumbotron {
+    color: white;
+    background-color: rgb(19, 70, 104);
+    border-color: rgb(19, 70, 104);
+}
+
+h4 {
+    margin: 12px;
+}
+
+.schedule {
+    margin-bottom: 32px;
+}
+
+th {
+    width: 16.67%;
+}
+
+.current-schedule {
+    margin-top: 32px;
+}
+
+th, td {
+    padding: 2px;
+}
+
+.table th {
+    border-top: none;
+}
+
+.card-heading {
+    /* background-color: rgb(19, 70, 104); */
+    border-bottom: 1px solid rgb(19, 70, 104);
+    color: rgb(19, 70, 104);
+}
+
+.card {
+    border-color: rgb(19, 70, 104);
+}
+
+.btn-primary, .btn-primary:hover {
+    color: white;
+    background-color: rgb(19, 70, 104);
+    border-color: rgb(19, 70, 104);
+}
