@@ -8,16 +8,10 @@ var config = {
     messagingSenderId: "270985835512"
 };
 firebase.initializeApp(config);
-
 var database = firebase.database();
-
-var trainsArray = [];
-var id = 0;
 
 $("#submit").on("click", function(event) {
     event.preventDefault();
-
-    id++;
 
     var name = $("#name").val().trim();
     var destination = $("#destination").val().trim();
@@ -30,14 +24,6 @@ $("#submit").on("click", function(event) {
     var minutesAway = frequency - timeRemainder;
     var nextTrain = moment().add(minutesAway, "minutes").format("hh:mm");
 
-    trainsArray.push({
-        name: name,
-        destination: destination,
-        frequency: frequency,
-        nextTrain: nextTrain,
-        minutesAway: minutesAway,
-    })
-
     // check that time entered is in specified military format and doesn't contain letters and inputs aren't empty
     if (firstTime.length === 5 && !firstTime.match(/[a-z]/i) && name != "" && destination != "" && frequency != "") {
         database.ref().push({
@@ -49,7 +35,6 @@ $("#submit").on("click", function(event) {
             nextTrain: nextTrain,
             dateAdded: firebase.database.ServerValue.TIMESTAMP
         })
-        // database.ref().push(trainsArray);
     } else {
         alert("Please enter your information in the specified format.");
     }
@@ -59,22 +44,20 @@ $("#submit").on("click", function(event) {
     $("#destination").val("");
     $("#first-time").val("");
     $("#frequency").val("");
-
-    console.log(trainsArray);
 })
-
-// for (var i = 0; i < trainsArray.length; i++) {
-
-// }
-
 
 database.ref().on("child_added", function(childSnapshot) {
     $("#new-train").append(
-        "<tr id='" + id + "'><td>" + childSnapshot.val().name +
+        "<tr><td>" + childSnapshot.val().name +
         "</td><td>" + childSnapshot.val().destination +
         "</td><td>" + childSnapshot.val().frequency +
         "</td><td>" + childSnapshot.val().nextTrain +
         "</td><td>" + childSnapshot.val().minutesAway +
-        "</td><td>" + "<button class='cancel'>x</button>" + "</td></tr>");
-        // ^^ add unique firebase id as id in the cancel button so that when i click on it i can target the unique id to delete that row
+        "</td><td><button class='cancel'>x</button></td></tr>");
+})
+
+// on cancel click, delete row of data. DOES NOT DELETE FROM FIREBASE
+$(document).on("click", ".cancel", function (event) {
+    // button's parent node is the data cell, the data cell's parent node is the row
+    $(this.parentNode.parentNode).html("");
 })
